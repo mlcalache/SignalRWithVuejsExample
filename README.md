@@ -22,7 +22,7 @@ This example is based on the tutorial posted by Daniel Jimenez Garcia, on https:
 1. Open the signalrexample.api folder
 2. Run the command `dotnet run` to start serving the API
 
-### Running with Vsual Studio
+### Running with Visual Studio
 1. Open the SignalRExample.API.sln solution
 2. (Re)Build with Ctrl+Shift+B. This will also restore the dependencies (packages)
 2. Run the SignalRExample.API project
