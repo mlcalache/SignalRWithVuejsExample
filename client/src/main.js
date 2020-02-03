@@ -13,7 +13,7 @@ import QuestionHub from './question-hub'
 Vue.config.productionTip = false
 
 // Setup axios as the Vue default $http library
-axios.defaults.baseURL = 'https://localhost:44308' // same as the Url the server listens to
+axios.defaults.baseURL = 'https://localhost:5001' // same as the Url the server listens to
 Vue.prototype.$http = axios
 
 // Install Vue extensions

@@ -19,12 +19,12 @@ export default {
   },
   methods: {
     onUpvote () {
-      this.$http.patch(`https://localhost:44308/question/${this.question.id}/upvote`).then(res => {
+      this.$http.patch(`https://localhost:5001/question/${this.question.id}/upvote`).then(res => {
         Object.assign(this.question, res.data)
       })
     },
     onDownvote () {
-      this.$http.patch(`https://localhost:44308/question/${this.question.id}/downvote`).then(res => {
+      this.$http.patch(`https://localhost:5001/question/${this.question.id}/downvote`).then(res => {
         Object.assign(this.question, res.data)
       })
     },

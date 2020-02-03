@@ -28,7 +28,7 @@ export default {
   },
   methods: {
     onSubmit () {
-      this.$http.post(`https://localhost:44308/question/${this.questionId}/answer`, this.form).then(res => {
+      this.$http.post(`https://localhost:5001/question/${this.questionId}/answer`, this.form).then(res => {
         this.$emit('answer-added', res.data)
         this.$refs.addAnswerModal.hide()
       })

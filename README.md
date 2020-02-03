@@ -17,7 +17,7 @@ This example is based on the tutorial posted by Daniel Jimenez Garcia, on https:
 2. Run the command `npm install` to restore the node modules (dependencies)
 3. Run the command `npm run serve` to start serving the front-end application
 
-Note: If you run the API with Visual Studio Code, the URL is setup to be on https://localhost:5001 and on http://localhost:5000. If you run with Visual Studio, the UR is setup to be on https://localhost:44308 and on http://localhost:58070. So, please, remember to change base URL on `axios.defaults.baseURL` on the `main.js` file.
+Note: If you run the API with Visual Studio Code, the URL is setup to be on https://localhost:5001 and on http://localhost:5000. If you run with Visual Studio, the UR is setup to be on https://localhost:44308 and on http://localhost:58070. So, please, remember to change base URL on `axios.defaults.baseURL` in the `main.js` file and also the URLs in the Vue components files (*.vue).
 
 ## API with .Net Core
 
