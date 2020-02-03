@@ -101,7 +101,7 @@ namespace SignalRExample.API.Controllers
             await this._hubContext
                 .Clients
                 .All
-                .AnswerRemovedFromQuestion(question);
+                .AnswerRemovedFromQuestion(answer);
 
             return new JsonResult(answer);
         }

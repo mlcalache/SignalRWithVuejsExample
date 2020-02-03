@@ -69,17 +69,23 @@ export default {
     onAnswerRemoved(answerId) {
       this.$http.delete(`https://localhost:5001/question/${this.questionId}/answer/${answerId}`).then(res => {
           var removedAnswer = this.question.answers.find(a => a.id == res.data.id);
-          var index = this.question.answers.indexOf(removedAnswer);
-          this.question.answers.splice(index, 1);
+          if (removedAnswer) {
+            var index = this.question.answers.indexOf(removedAnswer);
+            this.question.answers.splice(index, 1);
+          }
         });
     },
-    onAnswerRemovedFromQuestion(question) {
-      this.question = question
+    onAnswerRemovedFromQuestion(answer) {
+      var removedAnswer = this.question.answers.find(a => a.id == answer.id);
+      if (removedAnswer) {
+        var index = this.question.answers.indexOf(removedAnswer);
+        this.question.answers.splice(index, 1);
+      }
     },
     beforeDestroy() {
       // Make sure to cleanup SignalR event handlers when removing the component
-      this.$questionHub.$off("answer-added", this.onAnswerAddedToQuestion);
-      this.$questionHub.$off("answer-removed",this.onAnswerRemovedFromQuestion);
+      this.$questionHub.$off("answer-added", this.onAnswerAddedToQuestion)
+      this.$questionHub.$off("answer-removed",this.onAnswerRemovedFromQuestion)
     }
   }
 };

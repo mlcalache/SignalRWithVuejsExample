@@ -10,7 +10,7 @@ namespace SignalRExample.API.Hubs
 
         Task NewAnswerAdded(Question question);
 
-        Task AnswerRemovedFromQuestion(Question question);
+        Task AnswerRemovedFromQuestion(Answer answer);
 
         Task QuestionScoreChanged(Guid questionId, int score);
     }

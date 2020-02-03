@@ -1,7 +1,7 @@
 <template>
   <div>
     <h1>
-      This totally looks like Stack Overflow
+      FAQ
       <button
         v-b-modal.addQuestionModal
         class="btn btn-primary mt-2 float-right"
@@ -55,8 +55,8 @@ export default {
       var q = this.questions.find(item => question.id == item.id);
       q.answerCount++;
     },
-    onAnswerRemovedFromQuestion(question) {
-      var q = this.questions.find(item => question.id == item.id);
+    onAnswerRemovedFromQuestion(answer) {
+      var q = this.questions.find(item => answer.questionId == item.id);
       q.answerCount--;
     },
     beforeDestroy() {
