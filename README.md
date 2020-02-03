@@ -29,3 +29,7 @@ Note: If you run the API with Visual Studio Code, the URL is setup to be on http
 1. Open the SignalRExample.API.sln solution
 2. (Re)Build with Ctrl+Shift+B. This will also restore the dependencies (packages)
 2. Run the SignalRExample.API project
+
+# Demonstration
+
+https://youtu.be/cS2IjUqLL4M
