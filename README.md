@@ -10,11 +10,14 @@ There is no database for this application. It means the data is lost when the ba
 This example is based on the tutorial posted by Daniel Jimenez Garcia, on https://www.dotnetcurry.com/aspnet-core/1480/aspnet-core-vuejs-signalr-app.
 
 # Steps to run
+
 ## Client with Vue.js
 
 1. Open the client folder
 2. Run the command `npm install` to restore the node modules (dependencies)
 3. Run the command `npm run serve` to start serving the front-end application
+
+Note: If you run the API with Visual Studio Code, the URL is setup to be on https://localhost:5001 and on http://localhost:5000. If you run with Visual Studio, the UR is setup to be on https://localhost:44308 and on http://localhost:58070. So, please, remember to change base URL on `axios.defaults.baseURL` on the `main.js` file.
 
 ## API with .Net Core
 
