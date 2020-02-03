@@ -7,6 +7,8 @@ The websockets are provided by the SignalR library.
 
 There is no database for this application. It means the data is lost when the back-end application is restarted.
 
+This example is based on the tutorial posted by Daniel Jimenez Garcia, on https://www.dotnetcurry.com/aspnet-core/1480/aspnet-core-vuejs-signalr-app.
+
 # Steps to run
 ## Client with Vue.js
 
