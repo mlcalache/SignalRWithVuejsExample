@@ -63,8 +63,10 @@ export default {
       }
     },
     onAnswerAddedToQuestion(question) {
-      if (this.question.answers.length != question.answers.length)
-        this.question.answers = question.answers;
+      if(this.question.id == question.id){
+        if (this.question.answers.length != question.answers.length)
+          this.question.answers = question.answers;
+        }
     },
     onAnswerRemoved(answerId) {
       this.$http.delete(`https://localhost:5001/question/${this.questionId}/answer/${answerId}`).then(res => {
