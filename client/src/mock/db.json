@@ -1,0 +1,43 @@
+{
+    "question": [{
+            "id": 1,
+            "title": "Question 1",
+            "body": "Question body 1",
+            "score": 0,
+            "answerCount": 4,
+            "answers": [{
+                    "body": "a1",
+                    "id": "62c588e0-441b-11ea-bff6-29571924b909"
+                },
+                {
+                    "body": "a2",
+                    "id": "688e8d80-441b-11ea-bff6-29571924b909"
+                },
+                {
+                    "body": "a3",
+                    "id": "b9f4dee0-441b-11ea-bff6-29571924b909"
+                },
+                {
+                    "body": "a4",
+                    "id": "fc332f00-441b-11ea-be42-2b3797c2a3fa"
+                }
+            ]
+        },
+        {
+            "id": 2,
+            "title": "Question 2",
+            "body": "Question body 2",
+            "score": 0,
+            "answerCount": 1,
+            "answers": []
+        },
+        {
+            "id": 3,
+            "title": "Question 3",
+            "body": "Question body 3",
+            "score": 0,
+            "answerCount": 1,
+            "answers": []
+        }
+    ]
+}

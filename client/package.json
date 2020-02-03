@@ -1,0 +1,51 @@
+{
+    "name": "client",
+    "version": "0.1.0",
+    "private": true,
+    "scripts": {
+        "serve": "vue-cli-service serve",
+        "build": "vue-cli-service build",
+        "lint": "vue-cli-service lint",
+        "mock": "npx json-server --watch ./src/mock/db.json"
+    },
+    "dependencies": {
+        "core-js": "^3.4.4",
+        "uuid": "^3.4.0",
+        "vue": "^2.6.10",
+        "vue-router": "^3.1.5"
+    },
+    "devDependencies": {
+        "@aspnet/signalr": "^1.1.4",
+        "@fortawesome/fontawesome-free": "^5.12.0",
+        "@vue/cli-plugin-babel": "^4.1.0",
+        "@vue/cli-plugin-eslint": "^4.1.0",
+        "@vue/cli-service": "^4.1.0",
+        "axios": "^0.19.2",
+        "babel-eslint": "^10.0.3",
+        "bootstrap-vue": "^2.3.0",
+        "eslint": "^5.16.0",
+        "eslint-plugin-vue": "^5.0.0",
+        "json-server": "^0.15.1",
+        "vue-template-compiler": "^2.6.10"
+    },
+    "eslintConfig": {
+        "root": true,
+        "env": {
+            "node": true
+        },
+        "extends": [
+            "plugin:vue/essential",
+            "eslint:recommended"
+        ],
+        "rules": {
+            "no-console": "off"
+        },
+        "parserOptions": {
+            "parser": "babel-eslint"
+        }
+    },
+    "browserslist": [
+        "> 1%",
+        "last 2 versions"
+    ]
+}
