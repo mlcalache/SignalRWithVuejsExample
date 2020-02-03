@@ -1,5 +1,8 @@
 # SignalRWithVuejsExample
-SignalRWithVuejsExample
+The SignalRWithVuejsExample project aims on providing a simple example of a web application using websockets.
+The front-end application is developed using Vue.js while the back-end application (API) is developed using .Net Core (C#).
+The websockets are provided by the SignalR library.
+There is no database for this application. It means the data is lost when the back-end application is restarted.
 
 # Steps to run
 ## Client with Vue.js
