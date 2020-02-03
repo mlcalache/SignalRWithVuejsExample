@@ -6,9 +6,12 @@ namespace SignalRExample.API.Hubs
 {
     public interface IQuestionHub
     {
-        Task NewQuestionAdd(Question question);
-        //Task NewQuestionAdd(Guid questionId);
+        Task NewQuestionAdded(Question question);
 
-        Task QuestionScoreChange(Guid questionId, int score);
+        Task NewAnswerAdded(Question question);
+
+        Task AnswerRemovedFromQuestion(Question question);
+
+        Task QuestionScoreChanged(Guid questionId, int score);
     }
 }

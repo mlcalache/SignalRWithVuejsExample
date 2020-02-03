@@ -14,12 +14,20 @@ export default {
         Vue.prototype.$questionHub = questionHub
 
         // Forward server side SignalR events through $questionHub, where components will listen to them
-        connection.on('QuestionScoreChange', (questionId, score) => {
+        connection.on('QuestionScoreChanged', (questionId, score) => {
             questionHub.$emit('score-changed', { questionId, score })
         })
 
-        connection.on('NewQuestionAdd', (question) => {
+        connection.on('NewQuestionAdded', (question) => {
             questionHub.$emit('question-added', question)
+        })
+
+        connection.on('NewAnswerAdded', (question) => {
+            questionHub.$emit('answer-added', question)
+        })
+
+        connection.on('AnswerRemovedFromQuestion', (question) => {
+            questionHub.$emit('answer-removed', question)
         })
 
         let startedPromise = null

@@ -65,13 +65,13 @@ namespace SignalRExample.API.Controllers
             await this._hubContext
                 .Clients
                 .All
-                .NewQuestionAdd(question);
+                .NewQuestionAdded(question);
 
             return question;
         }
 
         [HttpPost("{id}/answer")]
-        public ActionResult AddAnswerAsync(Guid id, [FromBody]Answer answer)
+        public async Task<ActionResult> AddAnswerAsync(Guid id, [FromBody]Answer answer)
         {
             var question = _questions.SingleOrDefault(t => t.Id == id);
             if (question == null) return NotFound();
@@ -79,6 +79,30 @@ namespace SignalRExample.API.Controllers
             answer.Id = Guid.NewGuid();
             answer.QuestionId = id;
             question.Answers.Add(answer);
+
+            await this._hubContext
+                .Clients
+                .All
+                .NewAnswerAdded(question);
+
+            return new JsonResult(answer);
+        }
+
+        [HttpDelete("{id}/answer/{answerId}")]
+        public async Task<ActionResult> RemoveAnswerAsync(Guid id, Guid answerId)
+        {
+            var question = _questions.SingleOrDefault(t => t.Id == id);
+            if (question == null) return NotFound();
+
+            var answer = question.Answers.Find(x => x.Id == answerId);
+
+            question.Answers.Remove(answer);
+
+            await this._hubContext
+                .Clients
+                .All
+                .AnswerRemovedFromQuestion(question);
+
             return new JsonResult(answer);
         }
 
@@ -94,7 +118,7 @@ namespace SignalRExample.API.Controllers
             await this._hubContext
                 .Clients
                 .All
-                .QuestionScoreChange(question.Id, question.Score);
+                .QuestionScoreChanged(question.Id, question.Score);
 
             return new JsonResult(question);
         }
@@ -111,7 +135,7 @@ namespace SignalRExample.API.Controllers
             await this._hubContext
                 .Clients
                 .All
-                .QuestionScoreChange(question.Id, question.Score);
+                .QuestionScoreChanged(question.Id, question.Score);
 
             return new JsonResult(question);
         }
