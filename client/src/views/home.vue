@@ -2,10 +2,7 @@
   <div>
     <h1>
       FAQ
-      <button
-        v-b-modal.addQuestionModal
-        class="btn btn-primary mt-2 float-right"
-      >
+      <button v-b-modal.addQuestionModal class="btn btn-primary mt-2 float-right" >
         <i class="fas fa-plus" /> Ask a question
       </button>
     </h1>
@@ -14,8 +11,7 @@
         v-for="question in questions"
         :key="question.id"
         :question="question"
-        class="list-group-item list-group-item-action mb-3"
-      />
+        class="list-group-item list-group-item-action mb-3" />
     </ul>
     <add-question-modal @question-added="onQuestionAdded" />
   </div>
