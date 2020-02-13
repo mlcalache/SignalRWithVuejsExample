@@ -3,31 +3,19 @@ import { HubConnectionBuilder, LogLevel } from '@aspnet/signalr'
 export default {
     install(Vue) {
         const connection = new HubConnectionBuilder()
-            .withUrl(`${Vue.prototype.$http.defaults.baseURL}/question-hub`)
+            .withUrl('https://localhost:44308/inventory-hub')
             .configureLogging(LogLevel.Information)
             .build()
 
         // use new Vue instance as an event bus
-        const questionHub = new Vue()
+        const inventoryHub = new Vue()
 
         // every component will use this.$questionHub to access the event bus
-        Vue.prototype.$questionHub = questionHub
+        Vue.prototype.$inventoryHub = inventoryHub
 
         // Forward server side SignalR events through $questionHub, where components will listen to them
-        connection.on('QuestionScoreChanged', (questionId, score) => {
-            questionHub.$emit('score-changed', { questionId, score })
-        })
-
-        connection.on('NewQuestionAdded', (question) => {
-            questionHub.$emit('question-added', question)
-        })
-
-        connection.on('NewAnswerAdded', (question) => {
-            questionHub.$emit('answer-added', question)
-        })
-
-        connection.on('AnswerRemovedFromQuestion', (question) => {
-            questionHub.$emit('answer-removed', question)
+        connection.on('NewInventoryUpdateAdded', (inventoryUpdates) => {
+            inventoryHub.$emit('new-inventory-update-added', { inventoryUpdates })
         })
 
         let startedPromise = null

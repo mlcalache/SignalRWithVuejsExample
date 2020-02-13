@@ -40,16 +40,21 @@ export default {
       this.questions = res.data;
     });
 
-    // Listen to question add coming from SignalR events
+    // Listen to question hub coming from SignalR events
     this.$questionHub.$on("question-added", this.onQuestionAdded);
     this.$questionHub.$on("answer-added", this.onAnswerAddedToQuestion);
     this.$questionHub.$on("answer-removed", this.onAnswerRemovedFromQuestion);
+
+    // Listen to inventory hub from SignalR events
+    this.$inventoryHub.$on("new-inventory-update-added", this.onNewInventoryUpdateAdded);    
   },
   methods: {
     onQuestionAdded(question) {
       question.answerCount = 0;
       if (!this.questions.find(item => question.id == item.id))
+      {
         this.questions = [question, ...this.questions];
+      }
     },
     onAnswerAddedToQuestion(question) {
       var q = this.questions.find(item => question.id == item.id);
@@ -59,11 +64,16 @@ export default {
       var q = this.questions.find(item => answer.questionId == item.id);
       q.answerCount--;
     },
+    onNewInventoryUpdateAdded(inventoryUpdates) {
+      console.log(inventoryUpdates);
+      alert('Inventory updated');
+    },
     beforeDestroy() {
       // Make sure to cleanup SignalR event handlers when removing the component
       this.$questionHub.$off("question-added", this.onQuestionAdded);
       this.$questionHub.$off("answer-added", this.onAnswerAddedToQuestion);
       this.$questionHub.$off("answer-removed",this.onAnswerRemovedFromQuestion);
+      this.$inventoryHub.$off("new-inventory-update-added", this.onNewInventoryUpdateAdded);    
     }
   }
 };

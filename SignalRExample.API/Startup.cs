@@ -34,8 +34,6 @@ namespace SignalRExample.API
                 app.UseDeveloperExceptionPage();
             }
 
-
-
             app.UseCors(builder =>
                 builder
                     //.AllowAnyOrigin()
