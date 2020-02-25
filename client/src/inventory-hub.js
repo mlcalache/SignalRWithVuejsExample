@@ -3,7 +3,7 @@ import { HubConnectionBuilder, LogLevel } from '@aspnet/signalr'
 export default {
     install(Vue) {
         const connection = new HubConnectionBuilder()
-            .withUrl('https://localhost:44308/inventory-hub')
+            .withUrl('https://localhost:5003/inventory-hub')
             .configureLogging(LogLevel.Information)
             .build()
 
@@ -23,7 +23,7 @@ export default {
         function start() {
             startedPromise = connection.start().catch(err => {
                 console.error('Failed to connect with hub', err)
-                return new Promise((resolve, reject) => setTimeout(() => start().then(resolve).catch(reject), 5000))
+                // return new Promise((resolve, reject) => setTimeout(() => start().then(resolve).catch(reject), 5000))
             })
             return startedPromise
         }

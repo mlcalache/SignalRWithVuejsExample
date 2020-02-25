@@ -20,11 +20,12 @@
 <script>
 import QuestionPreview from "@/components/question-preview";
 import AddQuestionModal from "@/components/add-question-modal";
+import bus from "@/bus";
 
 export default {
   components: {
     QuestionPreview,
-    AddQuestionModal
+    AddQuestionModal   
   },
   data() {
     return {
@@ -40,9 +41,12 @@ export default {
     this.$questionHub.$on("question-added", this.onQuestionAdded);
     this.$questionHub.$on("answer-added", this.onAnswerAddedToQuestion);
     this.$questionHub.$on("answer-removed", this.onAnswerRemovedFromQuestion);
+    this.$questionHub.$on('question-removed', this.onQuestionRemoved);
+
+    bus.$on('a', this.onQuestionRemoved);
 
     // Listen to inventory hub from SignalR events
-    this.$inventoryHub.$on("new-inventory-update-added", this.onNewInventoryUpdateAdded);    
+    // this.$inventoryHub.$on("new-inventory-update-added", this.onNewInventoryUpdateAdded);    
   },
   methods: {
     onQuestionAdded(question) {
@@ -64,12 +68,22 @@ export default {
       console.log(inventoryUpdates);
       alert('Inventory updated');
     },
+    onQuestionRemoved (question) {
+     
+     var removedQuestion = this.questions.find(a => a.id == question.id);
+      if (removedQuestion) {
+        var index = this.questions.indexOf(removedQuestion);
+        this.questions.splice(index, 1);
+      }    
+    },
     beforeDestroy() {
       // Make sure to cleanup SignalR event handlers when removing the component
       this.$questionHub.$off("question-added", this.onQuestionAdded);
       this.$questionHub.$off("answer-added", this.onAnswerAddedToQuestion);
       this.$questionHub.$off("answer-removed",this.onAnswerRemovedFromQuestion);
-      this.$inventoryHub.$off("new-inventory-update-added", this.onNewInventoryUpdateAdded);    
+      this.$questionHub.$off('question-removed', this.onQuestionRemoved);
+      
+      // this.$inventoryHub.$off("new-inventory-update-added", this.onNewInventoryUpdateAdded);    
     }
   }
 };
