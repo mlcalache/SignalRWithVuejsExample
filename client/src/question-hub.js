@@ -29,13 +29,17 @@ export default {
         connection.on('AnswerRemovedFromQuestion', (question) => {
             questionHub.$emit('answer-removed', question)
         })
+        
+        connection.on('QuestionRemoved', (question) => {
+            questionHub.$emit('question-removed', question)
+        })
 
         let startedPromise = null
 
         function start() {
             startedPromise = connection.start().catch(err => {
                 console.error('Failed to connect with hub', err)
-                return new Promise((resolve, reject) => setTimeout(() => start().then(resolve).catch(reject), 5000))
+                // return new Promise((resolve, reject) => setTimeout(() => start().then(resolve).catch(reject), 5000))
             })
             return startedPromise
         }

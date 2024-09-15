@@ -20,6 +20,7 @@
       <button class="btn btn-link float-right" @click="onReturnHome">Back to list</button>
     </footer>
     <add-answer-modal :question-id="this.questionId" @answer-added="onAnswerAdded" />
+     
   </article>
 </template>
  
@@ -27,10 +28,12 @@
 import QuestionScore from "@/components/question-score";
 import AddAnswerModal from "@/components/add-answer-modal";
 
+
 export default {
   components: {
     QuestionScore,
     AddAnswerModal
+    
   },
   data() {
     return {
@@ -52,6 +55,7 @@ export default {
     // Listen to question add coming from SignalR events
     this.$questionHub.$on("answer-added", this.onAnswerAddedToQuestion);
     this.$questionHub.$on("answer-removed", this.onAnswerRemovedFromQuestion);
+     
   },
   methods: {
     onReturnHome() {
@@ -88,6 +92,7 @@ export default {
       // Make sure to cleanup SignalR event handlers when removing the component
       this.$questionHub.$off("answer-added", this.onAnswerAddedToQuestion)
       this.$questionHub.$off("answer-removed",this.onAnswerRemovedFromQuestion)
+      
     }
   }
 };

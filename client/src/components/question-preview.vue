@@ -1,25 +1,30 @@
 <template>
-  <li class="card container" @click="onOpenQuestion">
+  <li class="card container" >
     <div class="card-body row">
       <question-score :question="question" class="col-1" />
       <div class="col-11">
         <h5 class="card-title">{{ question.title }}</h5>
         <p>
           {{question.body}}</p>
-        <a href="#" class="card-link">
+        <a href="#" class="card-link" @click="onOpenQuestion">
           View question <span class="badge badge-success">{{ question.answerCount }}</span>
-        </a>
+        </a>  
+       <question-remove :question="question" class="col-1"  />
+    
       </div>
+    
     </div>
   </li>
+  
 </template>
  
 <script>
 import QuestionScore from '@/components/question-score'
- 
+import QuestionRemove from '@/components/question-remove'
 export default {
   components: {
-    QuestionScore
+    QuestionScore,
+    QuestionRemove
   },
   props: {
     question: {

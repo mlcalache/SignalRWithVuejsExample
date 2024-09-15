@@ -30,6 +30,7 @@ export default {
     },
     // This is called from the server through SignalR
     onScoreChanged ({questionId, score }) {
+     alert(questionId)
       if (this.question.id !== questionId) return
       Object.assign(this.question, { score })
     },

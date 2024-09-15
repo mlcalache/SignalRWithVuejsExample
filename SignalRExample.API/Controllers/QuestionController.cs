@@ -24,7 +24,7 @@ namespace SignalRExample.API.Controllers
         //    }
         //};
 
-        private static ConcurrentBag<Question> _questions = new ConcurrentBag<Question>();
+        private static ConcurrentDictionary<Guid,Question> _questions = new ConcurrentDictionary<Guid,Question>();
 
         private readonly IHubContext<QuestionHub, IQuestionHub> _hubContext;
 
@@ -36,23 +36,23 @@ namespace SignalRExample.API.Controllers
         [HttpGet()]
         public IEnumerable GetQuestions()
         {
-            return _questions.Select(q => new
+            return _questions.Select(q => new 
             {
-                Id = q.Id,
-                Title = q.Title,
-                Body = q.Body,
-                Score = q.Score,
-                AnswerCount = q.Answers.Count
+                Id = q.Value.Id,
+                Title = q.Value.Title,
+                Body = q.Value.Body,
+                Score = q.Value.Score,
+                AnswerCount = q.Value.Answers.Count
             });
         }
 
         [HttpGet("{id}")]
         public ActionResult GetQuestion(Guid id)
         {
-            var question = _questions.SingleOrDefault(t => t.Id == id);
-            if (question == null) return NotFound();
+            var question = _questions.SingleOrDefault(t => t.Key == id);
+            if (question.Value == null) return NotFound();
 
-            return new JsonResult(question);
+            return new JsonResult(question.Value);
         }
 
         [HttpPost()]
@@ -60,7 +60,7 @@ namespace SignalRExample.API.Controllers
         {
             question.Id = Guid.NewGuid();
             question.Answers = new List<Answer>();
-            _questions.Add(question);
+            _questions.TryAdd(question.Id ,question);
 
             await this._hubContext
                 .Clients
@@ -73,17 +73,17 @@ namespace SignalRExample.API.Controllers
         [HttpPost("{id}/answer")]
         public async Task<ActionResult> AddAnswerAsync(Guid id, [FromBody]Answer answer)
         {
-            var question = _questions.SingleOrDefault(t => t.Id == id);
-            if (question == null) return NotFound();
+            var question = _questions.SingleOrDefault(t => t.Key == id);
+            if (question.Value == null) return NotFound();
 
             answer.Id = Guid.NewGuid();
             answer.QuestionId = id;
-            question.Answers.Add(answer);
+            question.Value.Answers.Add(answer);
 
             await this._hubContext
                 .Clients
                 .All
-                .NewAnswerAdded(question);
+                .NewAnswerAdded(question.Value);
 
             return new JsonResult(answer);
         }
@@ -91,12 +91,12 @@ namespace SignalRExample.API.Controllers
         [HttpDelete("{id}/answer/{answerId}")]
         public async Task<ActionResult> RemoveAnswerAsync(Guid id, Guid answerId)
         {
-            var question = _questions.SingleOrDefault(t => t.Id == id);
-            if (question == null) return NotFound();
+            var question = _questions.SingleOrDefault(t => t.Key == id);
+            if (question.Value == null) return NotFound();
 
-            var answer = question.Answers.Find(x => x.Id == answerId);
+            var answer = question.Value.Answers.Find(x => x.Id == answerId);
 
-            question.Answers.Remove(answer);
+            question.Value.Answers.Remove(answer);
 
             await this._hubContext
                 .Clients
@@ -109,34 +109,56 @@ namespace SignalRExample.API.Controllers
         [HttpPatch("{id}/upvote")]
         public async Task<ActionResult> UpvoteQuestionAsync(Guid id)
         {
-            var question = _questions.SingleOrDefault(t => t.Id == id);
-            if (question == null) return NotFound();
+            var question = _questions.SingleOrDefault(t => t.Key == id);
+            if (question.Value == null) return NotFound();
 
             // Warning, this increment isnt thread-safe! Use Interlocked methods
-            question.Score++;
+            question.Value.Score++;
 
             await this._hubContext
                 .Clients
                 .All
-                .QuestionScoreChanged(question.Id, question.Score);
+                .QuestionScoreChanged(question.Key, question.Value.Score);
 
-            return new JsonResult(question);
+            return new JsonResult(question.Value);
         }
 
         [HttpPatch("{id}/downvote")]
         public async Task<ActionResult> DownvoteQuestionAsync(Guid id)
         {
-            var question = _questions.SingleOrDefault(t => t.Id == id);
-            if (question == null) return NotFound();
+            var question = _questions.SingleOrDefault(t => t.Value.Id == id);
+            if (question.Value == null) return NotFound();
 
             // Warning, this increment isnt thread-safe! Use Interlocked methods
-            question.Score--;
+            question.Value.Score--;
 
             await this._hubContext
                 .Clients
                 .All
-                .QuestionScoreChanged(question.Id, question.Score);
+                .QuestionScoreChanged(question.Key, question.Value.Score);
 
+            return new JsonResult(question.Value);
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<ActionResult> QuestionRemoved(Guid id)
+        {
+            var question = _questions.SingleOrDefault(t => t.Key == id);
+            
+            if (question.Value == null) return NotFound();
+
+            // Warning, this increment isnt thread-safe! Use Interlocked methods
+            Question test;
+            _questions.TryRemove(id,out test);
+            
+                 await this._hubContext
+                .Clients
+                .All
+                .QuestionRemoved(question.Value);
+
+            
+
+           
             return new JsonResult(question);
         }
     }
